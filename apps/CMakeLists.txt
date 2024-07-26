@@ -114,7 +114,7 @@ set(CMAKE_BUILD_TYPE "${BUILD_TYPE}")
 
 
 # add and build each APP
-set(APP_LIST Coyote Hummbee RoadRunner Acme MSSplit SubMS TableInfo Asp Asp_mdspan)
+set(APP_LIST Coyote Hummbee RoadRunner Acme MSSplit SubMS TableInfo Asp Asp_mdspan Restore)
 foreach(APP IN LISTS APP_LIST)
    set(APP_DIR ${APP})
    string(TOLOWER ${APP_DIR} APP_NAME)
@@ -123,9 +123,6 @@ foreach(APP IN LISTS APP_LIST)
    list(APPEND APP_SOURCES)
 endforeach()
 
-add_subdirectory(src)
-
-
 # add and build googletest
 if(Apps_BUILD_TESTS)
   add_subdirectory(src/tests)
@@ -133,4 +130,6 @@ endif()
 
 # add and build translation layer
 add_subdirectory(src/translation)
+
+add_subdirectory(src)
 
