@@ -806,8 +806,12 @@ auto Roadrunner(//bool& restartUI, int& argc, char** argv,
 		<< "Data volume from VR: " << visResampler->getDataVolume() << " bytes" << endl
 		<< LogIO::POST;
 
-	  if (cmplxGridName!="")
+	  if (cmplxGridName!="") {
 	    visResampler->saveGriddedData(cmplxGridName+".vis",cgrid.coordinates());
+		visResampler->saveGriddedMeanData(cmplxGridName+".mean.vis",cgrid.coordinates());
+		visResampler->saveGriddedMomentData(cmplxGridName+".moment.vis",cgrid.coordinates());
+		visResampler->saveGriddedThresholdData(cmplxGridName+".threshold.vis",cgrid.coordinates());
+	  }
 
 	  // Is the following block of code required?
 	  {

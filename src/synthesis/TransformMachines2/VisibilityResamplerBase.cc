@@ -235,6 +235,24 @@ namespace casa{
     return std::shared_ptr<std::complex<double>>();
   }
 
+  std::shared_ptr<std::complex<double>> VisibilityResamplerBase::getMeanGridPtr(size_t& size) const
+  {
+    size = 0;
+    return std::shared_ptr<std::complex<double>>();
+  }
+
+  std::shared_ptr<std::complex<double>> VisibilityResamplerBase::getMomentGridPtr(size_t& size) const
+  {
+    size = 0;
+    return std::shared_ptr<std::complex<double>>();
+  }
+
+  std::shared_ptr<std::complex<double>> VisibilityResamplerBase::getThresholdGridPtr(size_t& size) const
+  {
+    size = 0;
+    return std::shared_ptr<std::complex<double>>();
+  }
+
   std::shared_ptr<double> VisibilityResamplerBase::getSumWeightsPtr(size_t& size) const
   {
     size = 0;

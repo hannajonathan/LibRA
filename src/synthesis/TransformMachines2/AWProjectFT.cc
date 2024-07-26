@@ -1901,6 +1901,23 @@ namespace casa { //# NAMESPACE CASA - BEGIN
     return visResampler_p->getGridPtr(size);
   }
 
+  std::shared_ptr<std::complex<double>> AWProjectFT::getMeanGridPtr(size_t& size) const
+  {
+    return visResampler_p->getMeanGridPtr(size);
+  }
+
+  std::shared_ptr<std::complex<double>> AWProjectFT::getMomentGridPtr(size_t& size) const
+  {
+    return visResampler_p->getMomentGridPtr(size);
+  }
+
+
+  std::shared_ptr<std::complex<double>> AWProjectFT::getThresholdGridPtr(size_t& size) const
+  {
+    return visResampler_p->getThresholdGridPtr(size);
+  }
+
+
   std::shared_ptr<double> AWProjectFT::getSumWeightsPtr(size_t& size) const
   {
     return visResampler_p->getSumWeightsPtr(size);

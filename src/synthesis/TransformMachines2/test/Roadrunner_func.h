@@ -787,6 +787,7 @@ void Roadrunner(bool& restartUI, int& argc, char** argv,
 	// scope
 	size_t gridValuesCount;
 	auto gridValuesPtr = ftm_g->getGridPtr(gridValuesCount);
+	auto gridValuesPtrMean = ftm_g->getMeanGridPtr(gridValuesCount);
 	assert((size_t)((int)gridValuesCount) == gridValuesCount);
 	// mpi_reduce(
 	//   (isRoot ? MPI_IN_PLACE : gridValuesPtr.get()),

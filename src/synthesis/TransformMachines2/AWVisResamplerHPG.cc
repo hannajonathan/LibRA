@@ -864,18 +864,106 @@ namespace casa{
   //
   std::shared_ptr<std::complex<double>> AWVisResamplerHPG::getGridPtr(size_t& size) const
   {
+    std::cout << "getGridPtr" << std::endl;
     if (hpgGridder_p)
       {
+        std::cout << "getGridPtr if";
         hpgGridder_p->fence();
         size = hpgGridder_p->grid_values_span();
         return hpgGridder_p->grid_values_ptr();
       }
     else
       {
+        std::cout << "getGridPtr else";
         size = 0;
         return std::shared_ptr<std::complex<double>>();
       }
   }
+
+  std::shared_ptr<std::complex<double>> AWVisResamplerHPG::getMeanGridPtr(size_t& size) const
+  {
+    std::cout << "getMeanGridPtr" << std::endl;
+    if (hpgGridder_p)
+      {
+        std::cout << "getMeanGridPtr if";
+        std::ofstream outFile("mean_grid_values.csv");
+        hpgGridder_p->fence();
+        size = hpgGridder_p->mean_grid_values_span();
+        auto mean_grid_values_pointer = hpgGridder_p->mean_grid_values();
+
+        for (int X = 0; X < size; ++X) {
+          for (int Y = 0; Y < size; ++Y) {
+              outFile << (*mean_grid_values_pointer)(X,Y,0,0) << ","; // (x, y, mrow, cube)
+              std::cout << (*mean_grid_values_pointer)(X,Y,0,0) << ",";
+          }
+          outFile << "\n";
+        }
+        return hpgGridder_p->mean_grid_values_ptr();
+      }
+    else
+      {
+        std::cout << "getMeanGridPtr else";
+        size = 0;
+        return std::shared_ptr<std::complex<double>>();
+      }
+  }
+
+  std::shared_ptr<std::complex<double>> AWVisResamplerHPG::getMomentGridPtr(size_t& size) const
+  {
+    std::cout << "getMomentGridPtr" << std::endl;
+    if (hpgGridder_p)
+      {
+        std::cout << "getMomentGridPtr if";
+        std::ofstream outFile("moment_grid_values.csv");
+        hpgGridder_p->fence();
+        size = hpgGridder_p->moment_grid_values_span();
+        auto moment_grid_values_pointer = hpgGridder_p->moment_grid_values();
+
+        for (int X = 0; X < size; ++X) {
+          for (int Y = 0; Y < size; ++Y) {
+              outFile << (*moment_grid_values_pointer)(X,Y,0,0) << ","; // (x, y, mrow, cube)
+              std::cout << (*moment_grid_values_pointer)(X,Y,0,0) << ",";
+          }
+          outFile << "\n";
+        }
+        return hpgGridder_p->moment_grid_values_ptr();
+      }
+    else
+      {
+        std::cout << "getMomentGridPtr else";
+        size = 0;
+        return std::shared_ptr<std::complex<double>>();
+      }
+  }
+
+  std::shared_ptr<std::complex<double>> AWVisResamplerHPG::getThresholdGridPtr(size_t& size) const
+  {
+    std::cout << "getThresholdGridPtr" << std::endl;
+    if (hpgGridder_p)
+      {
+        std::cout << "getThresholdGridPtr if";
+        std::ofstream outFile("threshold_grid_values.csv");
+        hpgGridder_p->fence();
+        size = hpgGridder_p->threshold_grid_values_span();
+        auto threshold_grid_values_pointer = hpgGridder_p->threshold_grid_values();
+
+        for (int X = 0; X < size; ++X) {
+          for (int Y = 0; Y < size; ++Y) {
+              outFile << (*threshold_grid_values_pointer)(X,Y,0,0) << ","; // (x, y, mrow, cube)
+              std::cout << (*threshold_grid_values_pointer)(X,Y,0,0) << ",";
+          }
+          outFile << "\n";
+        }
+        return hpgGridder_p->threshold_grid_values_ptr();
+      }
+    else
+      {
+        std::cout << "getThresholdGridPtr else";
+        size = 0;
+        return std::shared_ptr<std::complex<double>>();
+      }
+  }
+
   //
   //-------------------------------------------------------------------------
   //  

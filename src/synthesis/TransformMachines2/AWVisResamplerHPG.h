@@ -235,6 +235,9 @@ namespace casa { //# NAMESPACE CASA - BEGIN
       return (rwdcf_ptr_p!=NULL);
     }
     virtual std::shared_ptr<std::complex<double>> getGridPtr(size_t& size) const override;
+    virtual std::shared_ptr<std::complex<double>> getMeanGridPtr(size_t& size) const override;
+    virtual std::shared_ptr<std::complex<double>> getMomentGridPtr(size_t& size) const override;
+    virtual std::shared_ptr<std::complex<double>> getThresholdGridPtr(size_t& size) const override;
     virtual std::shared_ptr<double> getSumWeightsPtr(size_t& size) const override;
     bool createHPG(const int& nx, const int& ny, const int& nGridPol, const int& nGridChan,
 		   const int& nVBAntenna, const int& nVBChannels,

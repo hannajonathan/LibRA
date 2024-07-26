@@ -160,7 +160,10 @@ namespace casa { //# NAMESPACE CASA - BEGIN
     // by all sub-classes, if not, will return empty shared_ptr and
     // size equal to 0
      virtual std::shared_ptr<std::complex<double>> getGridPtr(size_t& size) const;
-    virtual std::shared_ptr<double> getSumWeightsPtr(size_t& size) const;
+     virtual std::shared_ptr<std::complex<double>> getMeanGridPtr(size_t& size) const;
+     virtual std::shared_ptr<std::complex<double>> getMomentGridPtr(size_t& size) const;
+     virtual std::shared_ptr<std::complex<double>> getThresholdGridPtr(size_t& size) const;
+     virtual std::shared_ptr<double> getSumWeightsPtr(size_t& size) const;
 
     virtual void releaseBuffers() = 0;
 //    VBRow2CFMapType& getVBRow2CFMap() {return vbRow2CFMap_p;};

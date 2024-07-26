@@ -2798,6 +2798,24 @@ void FTMachine::finalizeToWeightImage(const VisBuffer2& vb,
     return std::shared_ptr<std::complex<double>>();
   }
 
+  std::shared_ptr<std::complex<double>> FTMachine::getMeanGridPtr(size_t& size) const
+  {
+    size = 0;
+    return std::shared_ptr<std::complex<double>>();
+  }
+
+  std::shared_ptr<std::complex<double>> FTMachine::getMomentGridPtr(size_t& size) const
+  {
+    size = 0;
+    return std::shared_ptr<std::complex<double>>();
+  }
+
+  std::shared_ptr<std::complex<double>> FTMachine::getThresholdGridPtr(size_t& size) const
+  {
+    size = 0;
+    return std::shared_ptr<std::complex<double>>();
+  }
+
   std::shared_ptr<double> FTMachine::getSumWeightsPtr(size_t& size) const
   {
     size = 0;
