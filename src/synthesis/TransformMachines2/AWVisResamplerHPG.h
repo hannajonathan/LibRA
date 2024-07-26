@@ -186,6 +186,7 @@ namespace casa { //# NAMESPACE CASA - BEGIN
 				const std::array<unsigned, 4>& gridSize);
 
     virtual void saveGriddedData(const std::string& name,const casacore::CoordinateSystem& csys);
+    virtual void saveGriddedMeanData(const std::string& name,const casacore::CoordinateSystem& csys);
     //
     //---------------------------------------------------------------------------------------------------------------------
     // These specialized methods reterive the products from the external Device and do the necessary finalization for it.
@@ -265,6 +266,9 @@ namespace casa { //# NAMESPACE CASA - BEGIN
     //
     template <class T>
     void getGriddedData(casacore::Array<T>& griddedData);
+    template <class T>
+    void getGriddedMeanData(casacore::Array<T>& griddedMeanData);
+
     void GridToData(VBStore& vbs,const casacore::Array<casacore::Complex>& griddedData);
     //    casacore::Cube<casacore::Complex>& GridToData_p(VBStore& vbs,const casacore::Array<casacore::Complex>& griddedData); 
 

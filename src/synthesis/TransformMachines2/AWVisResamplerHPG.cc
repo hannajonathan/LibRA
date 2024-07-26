@@ -270,6 +270,23 @@ namespace casa{
 
     refim::storeArrayAsImage(name, csys, griddedData);
   }
+
+  void AWVisResamplerHPG::saveGriddedMeanData(const std::string& name,
+					  const casacore::CoordinateSystem& csys)
+  {
+    LogIO log_l(LogOrigin("AWVisResamplerHPG[R&D]","saveGriddedMeanData"));
+    log_l << "Saving complex grid to the disk" << LogIO::POST;
+    //casacore::Array<casacore::DComplex> griddedData;    
+    //
+    // Save a SP versin of the grid since casaviewer (and perhaps
+    // CASA's imagetool) can't handle DComplex images.  However for
+    // numerical precision, FT of the complex grid must be done in DP.
+    //
+    casacore::Array<casacore::Complex> griddedMeanData;    
+    getGriddedMeanData(griddedMeanData);
+
+    refim::storeArrayAsImage(name, csys, griddedMeanData);
+  }
   //
   //-------------------------------------------------------------------------
   // Retrieve the gridded data from the device.  The grid from the
@@ -286,6 +303,31 @@ namespace casa{
     shp = griddedData.shape();
     Bool dummy;
     T *stor = griddedData.getStorage(dummy);
+    DComplex val;
+    unsigned long k=0;
+
+    // To TEST: All the following nested loops could be replaced with
+    // gg->copy_to(hpg::Device::OpenMP, stor);
+    for(ndx[3]=0;  ndx[3]<shp[3];  ndx[3]++)
+      for(ndx[2]=0;  ndx[2]<shp[2];  ndx[2]++)
+	for(ndx[1]=0;  ndx[1]<shp[1];  ndx[1]++)
+	  for(ndx[0]=0;  ndx[0]<shp[0];  ndx[0]++)
+	    {
+	      val = (*gg)(ndx[0],ndx[1],ndx[2],ndx[3]);
+	      stor[k++] = (T)val;
+	    }
+  }
+  template <class T>
+  void AWVisResamplerHPG::getGriddedMeanData(casacore::Array<T>& griddedMeanData)
+  {
+    auto gg=hpgGridder_p->mean_grid_values();
+    IPosition shp = griddedMeanData.shape(),ndx(4);
+    for (size_t i = 0; i < 4; ++i)
+      ndx[i]=gg->extent(i);
+    griddedMeanData.resize(ndx);
+    shp = griddedMeanData.shape();
+    Bool dummy;
+    T *stor = griddedMeanData.getStorage(dummy);
     DComplex val;
     unsigned long k=0;
 
