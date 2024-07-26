@@ -181,6 +181,9 @@ namespace casa { //# NAMESPACE CASA - BEGIN
     virtual void setModelImage(const std::string& /*HPGModelImage*/) {};
 
     virtual void saveGriddedData(const std::string&,const casacore::CoordinateSystem&) {};
+    virtual void saveGriddedMeanData(const std::string&,const casacore::CoordinateSystem&) {};
+    virtual void saveGriddedMomentData(const std::string&,const casacore::CoordinateSystem&) {};
+    virtual void saveGriddedThresholdData(const std::string&,const casacore::CoordinateSystem&) {};
  
     virtual double getVisGridded()=0;
 
