@@ -29,8 +29,12 @@ LIST(APPEND CMAKE_PROGRAM_PATH  "/usr/local/cuda/bin" ...)
 set(LIBRA_KOKKOS_GIT_REPOSITORY   "https://github.com/kokkos/kokkos.git")
 set(LIBRA_KOKKOS_GIT_TAG          "4.3.00")
 
-set(LIBRA_HPG_GIT_REPOSITORY      "https://gitlab.nrao.edu/mpokorny/hpg.git")
-set(LIBRA_HPG_GIT_TAG             "main")
+set(LIBRA_KOKKOSTOOLS_GIT_REPOSITORY   "https://github.com/kokkos/kokkos-tools.git")
+set(LIBRA_KOKKOSTOOLS_GIT_TAG          "develop")
+
+
+set(LIBRA_HPG_GIT_REPOSITORY      "https://github.com/hannajonathan/hpg.git")
+set(LIBRA_HPG_GIT_TAG             "dev")
 
 set(LIBRA_CASACORE_GIT_REPOSITORY "https://github.com/preshanth/casacore.git")#"https://github.com/casacore/casacore.git")#
 set(LIBRA_CASACORE_GIT_TAG        "fix_regex_v3.5.0")#"2e121e67bf881ac7f309604447a4b0d481913902")#
@@ -139,7 +143,7 @@ if(NOT "${Kokkos_CUDA_ARCH_NAME}" STREQUAL "")
   	               -DKokkos_ENABLE_CUDA=ON
   	               -D${Kokkos_CUDA_ARCH_NAME}=ON
   	               -DKokkos_ENABLE_OPENMP=ON
-  	               -DKokkos_ENABLE_SERIAL=ON
+  	               -DKokkos_ENABLE_SERIAL=OFF
   	               -DBUILD_SHARED_LIBS=ON
   BUILD_COMMAND   make -j ${NCORES}
   INSTALL_COMMAND make install
@@ -158,7 +162,7 @@ else()
                    -DKokkos_ENABLE_CUDA=ON
                    -DKokkos_ENABLE_OPENMP=ON
                    -DKokkos_ENABLE_SERIAL=ON
-                   -DKokkos_ENABLE_PROFILING=ON
+                   -DKokkos_ENABLE_PROFILING=OFF
                    -DBUILD_SHARED_LIBS=ON
   BUILD_COMMAND   make -j ${NCORES}
   INSTALL_COMMAND make install
