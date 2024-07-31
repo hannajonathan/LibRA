@@ -287,6 +287,41 @@ namespace casa{
 
     refim::storeArrayAsImage(name, csys, griddedMeanData);
   }
+
+  void AWVisResamplerHPG::saveGriddedMomentData(const std::string& name,
+					  const casacore::CoordinateSystem& csys)
+  {
+    LogIO log_l(LogOrigin("AWVisResamplerHPG[R&D]","saveGriddedMomentData"));
+    log_l << "Saving complex grid to the disk" << LogIO::POST;
+    //casacore::Array<casacore::DComplex> griddedData;    
+    //
+    // Save a SP versin of the grid since casaviewer (and perhaps
+    // CASA's imagetool) can't handle DComplex images.  However for
+    // numerical precision, FT of the complex grid must be done in DP.
+    //
+    casacore::Array<casacore::Complex> griddedMomentData;    
+    getGriddedMomentData(griddedMomentData);
+
+    refim::storeArrayAsImage(name, csys, griddedMomentData);
+  }
+
+  void AWVisResamplerHPG::saveGriddedThresholdData(const std::string& name,
+					  const casacore::CoordinateSystem& csys)
+  {
+    LogIO log_l(LogOrigin("AWVisResamplerHPG[R&D]","saveGriddedThresholdData"));
+    log_l << "Saving complex grid to the disk" << LogIO::POST;
+    //casacore::Array<casacore::DComplex> griddedData;    
+    //
+    // Save a SP versin of the grid since casaviewer (and perhaps
+    // CASA's imagetool) can't handle DComplex images.  However for
+    // numerical precision, FT of the complex grid must be done in DP.
+    //
+    casacore::Array<casacore::Complex> griddedThresholdData;    
+    getGriddedThresholdData(griddedThresholdData);
+
+    refim::storeArrayAsImage(name, csys, griddedThresholdData);
+  }
+
   //
   //-------------------------------------------------------------------------
   // Retrieve the gridded data from the device.  The grid from the
@@ -317,6 +352,7 @@ namespace casa{
 	      stor[k++] = (T)val;
 	    }
   }
+
   template <class T>
   void AWVisResamplerHPG::getGriddedMeanData(casacore::Array<T>& griddedMeanData)
   {
@@ -342,6 +378,58 @@ namespace casa{
 	      stor[k++] = (T)val;
 	    }
   }
+
+  template <class T>
+  void AWVisResamplerHPG::getGriddedMomentData(casacore::Array<T>& griddedMomentData)
+  {
+    auto gg=hpgGridder_p->moment_grid_values();
+    IPosition shp = griddedMomentData.shape(),ndx(4);
+    for (size_t i = 0; i < 4; ++i)
+      ndx[i]=gg->extent(i);
+    griddedMomentData.resize(ndx);
+    shp = griddedMomentData.shape();
+    Bool dummy;
+    T *stor = griddedMomentData.getStorage(dummy);
+    DComplex val;
+    unsigned long k=0;
+
+    // To TEST: All the following nested loops could be replaced with
+    // gg->copy_to(hpg::Device::OpenMP, stor);
+    for(ndx[3]=0;  ndx[3]<shp[3];  ndx[3]++)
+      for(ndx[2]=0;  ndx[2]<shp[2];  ndx[2]++)
+	for(ndx[1]=0;  ndx[1]<shp[1];  ndx[1]++)
+	  for(ndx[0]=0;  ndx[0]<shp[0];  ndx[0]++)
+	    {
+	      val = (*gg)(ndx[0],ndx[1],ndx[2],ndx[3]);
+	      stor[k++] = (T)val;
+	    }
+  }
+
+  template <class T>
+  void AWVisResamplerHPG::getGriddedThresholdData(casacore::Array<T>& griddedThresholdData)
+  {
+    auto gg=hpgGridder_p->threshold_grid_values();
+    IPosition shp = griddedThresholdData.shape(),ndx(4);
+    for (size_t i = 0; i < 4; ++i)
+      ndx[i]=gg->extent(i);
+    griddedThresholdData.resize(ndx);
+    shp = griddedThresholdData.shape();
+    Bool dummy;
+    T *stor = griddedThresholdData.getStorage(dummy);
+    DComplex val;
+    unsigned long k=0;
+
+    // To TEST: All the following nested loops could be replaced with
+    // gg->copy_to(hpg::Device::OpenMP, stor);
+    for(ndx[3]=0;  ndx[3]<shp[3];  ndx[3]++)
+      for(ndx[2]=0;  ndx[2]<shp[2];  ndx[2]++)
+	for(ndx[1]=0;  ndx[1]<shp[1];  ndx[1]++)
+	  for(ndx[0]=0;  ndx[0]<shp[0];  ndx[0]++)
+	    {
+	      val = (*gg)(ndx[0],ndx[1],ndx[2],ndx[3]);
+	      stor[k++] = (T)val;
+	    }
+  }    
   //
   //-------------------------------------------------------------------------
   // Gather the grid and sum-of-weights from the Device (external to
